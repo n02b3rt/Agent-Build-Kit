@@ -41,6 +41,13 @@ The whole init = pick → copy → set title/accent → publish → one-line lin
 
 **Running on an existing app / repo?** Different job: read the app's current code and build an HTML replica of its key screens (so the client sees "what we have today"), then iterate. That's the one case where you read existing code before building.
 
+## Always report state — one line, so the user knows what's happening
+No walls of text. After every step, a single compact status line:
+- **After init:** `🟢 Canvas live · <link> · empty — tell me what to add (e.g. "add the home screen").`
+- **After each feature:** `✅ Added: <screen/section> · same link · now has: <comma-list of screens>.`
+- **If you had to assume something** (name, language, accent): one short clause, e.g. `(assumed English + name "Ostrzyż" — say to change)`.
+The user must always see three things: what's live, the link, and the next move. Nothing else.
+
 ## Anti-slop — inline, non-negotiable
 
 The shell is already well-designed; keep it that way. **Flat by default, one accent from the domain, real data (never placeholders).** Banned: gradient heroes/buttons, glow/blobs behind content, decorative dots or ✨, everything-centered, emoji as section headers, glassmorphism, a shadow under everything, cream `#F4F1EA`+serif+terracotta.
