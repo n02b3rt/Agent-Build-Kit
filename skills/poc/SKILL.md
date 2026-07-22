@@ -32,7 +32,7 @@ Core principle: **a PoC is not a product.** You may mock data, cut corners, skip
 
 ### Shared start
 1. **Capture ONE thesis.** State in one sentence: *what should this mock show?* That's the north star.
-2. **Detect the surface.** Mobile → copy `assets/mobile-shell.html`. (Web with a sidebar+topbar chrome — coming; until it lands, build web the classic way, with the same incremental discipline.)
+2. **Detect the surface.** Mobile app → copy `assets/mobile-shell.html` (iPhone shell). Website / web app / anything responsive → copy `assets/web-shell.html` — it shows the **same page on desktop and mobile at once**, so the client sees the RWD immediately. In the web shell write responsive CSS with `@container`, not `@media` (the shell provides the container; `@media` would look identical in both frames).
 3. **Build** (see phases below).
 4. **Deliver** — the link plus 2–3 sentences of "what this shows", a ready script to read to the client.
 
@@ -62,6 +62,7 @@ Ask about the idea **sparingly** — you're a PM, you have context. Instead of a
 - **`references/design-styles.md`** — a library of design directions + the AI-slop ban list (read before setting colors/typography).
 - **`references/mock-canvas.md`** — the canvas guide (read at the start of a session).
 - **`assets/mobile-shell.html`** — the iPhone shell (copy it, don't regenerate).
+- **`assets/web-shell.html`** — the web shell: one responsive page mirrored to a desktop browser frame and a phone frame at once (RWD preview). Use `@container` for breakpoints.
 - **`references/domains.md`** — "what to build / what data / pitfalls" recipes per domain.
 
 ## Use other skills

@@ -8,7 +8,7 @@ Built for product managers and anyone who needs to **validate a concept fast** (
 
 | Skill | What it does |
 |-------|--------------|
-| **`poc`** | Builds fast, clickable app mockups (mobile / web) to validate an idea or demo a concept to a client. Works incrementally on a polished device shell, matches the design direction to the product's domain, and consistently avoids generic, "AI-looking" aesthetics. |
+| **`poc`** | Builds fast, clickable app mockups (mobile / web) to validate an idea or demo a concept to a client. Works incrementally on a polished device shell, matches the design direction to the product's domain, and consistently avoids generic, "AI-looking" aesthetics. For web, it previews the **same responsive page on desktop and mobile at once**, so the RWD is visible in one glance. |
 | **`kickstart`** | Sets up a new project on solid foundations — version control from the first minute, a consistent commit convention, a `CLAUDE.md` that acts as a living architecture map, and a `docs/` directory. Adds a running `AI_NOTES.md` journal, a context-handoff reset protocol, a `<plan>`-first reasoning rule, and a fixed repository language. Keeps the codebase navigable as it scales. |
 
 ## Requirements

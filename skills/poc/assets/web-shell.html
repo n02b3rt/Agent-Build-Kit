@@ -1,0 +1,182 @@
+<title>PoC — web</title>
+<!--
+  ═══════════════════════════════════════════════════════════════════════
+  POC WEB SHELL — one responsive page shown at once on DESKTOP + MOBILE
+  ───────────────────────────────────────────────────────────────────────
+  HOW IT WORKS: you write ONE responsive page inside <template id="poc-app">.
+  The shell mirrors it into two frames (a laptop browser + a phone) so the
+  client sees the RWD side by side.
+
+  HOW TO USE (for the agent):
+  1. Replace <title> and the .brand text with the app/site name; set --accent.
+  2. Edit ONLY inside <template id="poc-app">. Both frames update automatically.
+  3. RESPONSIVE BREAKPOINTS: use @container, NOT @media. The shell provides the
+     container; @media would look identical in both frames. Anonymous container:
+     @container (min-width: 820px) { ...desktop... }   /* mobile = the base rules */
+  4. Add sections into <main class="main">, nav into .side (desktop) and .topnav.
+  5. Do NOT build features ahead of time. Real data, not placeholders. Flat design
+     (see references/design-styles.md). One tab = one link that grows.
+  Note: the app is CSS-first. If you need JS, put it in the shell <script> at the
+  bottom and attach to every .poc-app-root (there are two copies).
+  ═══════════════════════════════════════════════════════════════════════
+-->
+<style>
+  :root{
+    /* page background (responds to the viewer's theme) */
+    --page-bg:#eef0f4; --page-ink:#1b1a21; --page-mut:#5c5a66; --page-line:rgba(0,0,0,.12);
+    /* APP theme (light by default; swap --accent per project) */
+    --accent:#2f6fed; --accent-ink:#ffffff; --accent-weak:rgba(47,111,237,.12);
+    --bg:#f6f7f9; --surface:#ffffff; --surface-2:#eef0f4;
+    --line:rgba(15,18,25,.10); --line-2:rgba(15,18,25,.16);
+    --text:#14171d; --text-2:#5b616e; --text-3:#98a0ac;
+    --ok:#1aa06d; --warn:#c8890a; --danger:#d64545;
+    --d-scale:.52; --m-scale:.9;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --page-bg:#0b0b0f; --page-ink:#ecebf1; --page-mut:#948fa1; --page-line:rgba(255,255,255,.12); }
+  }
+  :root[data-theme="light"]{ --page-bg:#eef0f4; --page-ink:#1b1a21; --page-mut:#5c5a66; --page-line:rgba(0,0,0,.12); }
+  :root[data-theme="dark"]{ --page-bg:#0b0b0f; --page-ink:#ecebf1; --page-mut:#948fa1; --page-line:rgba(255,255,255,.12); }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; }
+  .poc-stage{
+    min-height:100vh; padding:40px 20px 52px;
+    background:var(--page-bg); /* FLAT. No glow/gradients (see references/design-styles.md) */
+    color:var(--page-ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  }
+  .poc-shots{ display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; justify-content:center; }
+  .poc-shot{ margin:0; display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .poc-cap{ font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--page-mut); }
+  .poc-cap b{ color:var(--page-ink); }
+
+  /* ---------- laptop / browser frame ---------- */
+  .poc-browser{
+    width:calc(1280px * var(--d-scale)); border-radius:12px; overflow:hidden;
+    background:var(--surface); border:1px solid var(--page-line);
+    box-shadow:0 30px 60px -28px rgba(0,0,0,.4);
+  }
+  .poc-chrome{ height:38px; display:flex; align-items:center; gap:8px; padding:0 14px;
+    background:linear-gradient(180deg,#e9ebef,#dfe2e8); border-bottom:1px solid rgba(0,0,0,.10); }
+  .poc-lights{ display:flex; gap:7px; }
+  .poc-lights i{ width:11px; height:11px; border-radius:50%; display:block; }
+  .poc-lights i:nth-child(1){ background:#ff5f57; } .poc-lights i:nth-child(2){ background:#febc2e; } .poc-lights i:nth-child(3){ background:#28c840; }
+  .poc-url{ flex:1; margin-left:8px; height:23px; border-radius:7px; background:#fff; border:1px solid rgba(0,0,0,.10);
+    display:flex; align-items:center; padding:0 10px; font-size:11px; color:#6a707c; max-width:60%; }
+  .poc-viewport-d{ width:calc(1280px * var(--d-scale)); height:calc(820px * var(--d-scale)); overflow:hidden; background:var(--bg); }
+  .poc-viewport-d .poc-app-root{ width:1280px; height:820px; transform:scale(var(--d-scale)); transform-origin:top left; }
+
+  /* ---------- phone frame ---------- */
+  .poc-phone{ width:calc(392px * var(--m-scale)); border-radius:calc(52px * var(--m-scale)); padding:calc(12px * var(--m-scale));
+    background:linear-gradient(160deg,#2b2833,#0a0910);
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), 0 30px 60px -28px rgba(0,0,0,.55); }
+  .poc-viewport-m{ position:relative; width:calc(392px * var(--m-scale)); height:calc(800px * var(--m-scale));
+    border-radius:calc(42px * var(--m-scale)); overflow:hidden; background:var(--bg); }
+  .poc-viewport-m .poc-app-root{ width:392px; height:800px; transform:scale(var(--m-scale)); transform-origin:top left; }
+  .poc-island{ position:absolute; top:calc(11px * var(--m-scale)); left:50%; transform:translateX(-50%);
+    width:calc(110px * var(--m-scale)); height:calc(30px * var(--m-scale)); background:#000; border-radius:99px; z-index:3; }
+
+  /* the container that drives @container queries in the cloned app */
+  .poc-app-root{ container-type:inline-size; overflow:auto; background:var(--bg); }
+  .poc-app-root::-webkit-scrollbar{ width:0; height:0; }
+
+  @media (max-width:760px){ :root{ --d-scale:.4; --m-scale:.78; } }
+</style>
+
+<div class="poc-stage">
+  <div class="poc-shots">
+    <figure class="poc-shot">
+      <div class="poc-browser">
+        <div class="poc-chrome">
+          <span class="poc-lights"><i></i><i></i><i></i></span>
+          <span class="poc-url">app.local</span>
+        </div>
+        <div class="poc-viewport-d"><div class="poc-app-root" data-viewport="desktop"></div></div>
+      </div>
+      <figcaption class="poc-cap"><b>Desktop</b> · 1280px</figcaption>
+    </figure>
+
+    <figure class="poc-shot">
+      <div class="poc-phone">
+        <div class="poc-viewport-m">
+          <div class="poc-island"></div>
+          <div class="poc-app-root" data-viewport="mobile"></div>
+        </div>
+      </div>
+      <figcaption class="poc-cap"><b>Mobile</b> · 390px</figcaption>
+    </figure>
+  </div>
+</div>
+
+<!-- ══════════ THE APP — edit ONLY here. Mirrored into both frames. ══════════ -->
+<template id="poc-app">
+  <style>
+    .app{ height:100%; display:flex; flex-direction:column; background:var(--bg); color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif; font-size:15px; }
+    .app *{ box-sizing:border-box; }
+    .app .topbar{ flex:0 0 auto; height:58px; display:flex; align-items:center; gap:14px; padding:0 18px;
+      background:var(--surface); border-bottom:1px solid var(--line); }
+    .app .brand{ font-weight:800; font-size:17px; letter-spacing:-.01em; }
+    .app .topnav{ display:none; gap:4px; margin-left:20px; }
+    .app .topnav a{ padding:8px 12px; border-radius:9px; font-size:14px; color:var(--text-2); font-weight:600; cursor:pointer; }
+    .app .topnav a.on{ color:var(--accent); background:var(--accent-weak); }
+    .app .menu{ margin-left:auto; width:40px; height:40px; border:1px solid var(--line-2); border-radius:11px;
+      background:var(--surface); font-size:18px; cursor:pointer; }
+    .app .cta{ display:none; margin-left:8px; padding:9px 15px; border:none; border-radius:11px; cursor:pointer;
+      background:var(--accent); color:var(--accent-ink); font-weight:800; font-size:14px; }
+    .app .body{ flex:1 1 auto; display:flex; min-height:0; }
+    .app .side{ display:none; flex-direction:column; gap:3px; width:236px; flex:0 0 auto; padding:16px 14px;
+      background:var(--surface); border-right:1px solid var(--line); }
+    .app .side a{ display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:10px;
+      font-size:14px; font-weight:600; color:var(--text-2); cursor:pointer; }
+    .app .side a.on{ background:var(--accent-weak); color:var(--accent); }
+    .app .side .ic{ font-size:17px; }
+    .app .main{ flex:1 1 auto; overflow:auto; padding:22px 20px; }
+    .app .empty{ height:100%; min-height:320px; display:flex; flex-direction:column; align-items:center;
+      justify-content:center; text-align:center; color:var(--text-2); gap:12px; }
+    .app .empty .g{ width:66px; height:66px; border-radius:18px; display:grid; place-items:center; font-size:30px;
+      color:var(--accent); background:var(--surface); border:1px dashed var(--line-2); }
+    .app .empty code{ background:var(--surface-2); padding:2px 7px; border-radius:6px; font-size:13px; color:var(--text); }
+
+    /* ▼ DESKTOP layout — driven by the frame width (container), not the viewport */
+    @container (min-width: 820px){
+      .app .menu{ display:none; }
+      .app .topnav{ display:flex; }
+      .app .cta{ display:inline-block; margin-left:auto; }
+      .app .side{ display:flex; }
+      .app .main{ padding:30px 34px; }
+    }
+  </style>
+
+  <div class="app">
+    <header class="topbar">
+      <span class="brand">App name</span>
+      <nav class="topnav">
+        <a class="on">Overview</a>
+      </nav>
+      <button class="menu" aria-label="Menu">☰</button>
+      <button class="cta">Get started</button>
+    </header>
+    <div class="body">
+      <aside class="side">
+        <a class="on"><span class="ic">🏠</span> Overview</a>
+      </aside>
+      <main class="main">
+        <div class="empty">
+          <div class="g">＋</div>
+          <div><strong>Empty web app — ready to build</strong><br>Tell me the first section to add, e.g. <code>add a pricing section</code></div>
+        </div>
+      </main>
+    </div>
+  </div>
+</template>
+
+<script>
+(function(){
+  var html = document.getElementById('poc-app').innerHTML;
+  Array.prototype.forEach.call(document.querySelectorAll('.poc-app-root'), function(root){
+    root.innerHTML = html;
+  });
+})();
+</script>

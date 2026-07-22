@@ -62,6 +62,16 @@ Color tokens (use the variables, not hardcoded hex): `--accent`, `--bg`, `--surf
 
 **Direction + accent per project:** in Phase 1, pick **one deliberate direction** from `references/design-styles.md` matched to the app and set the tokens with it (`--accent`, `--bg`, `--surface`, `--text`…). **Flat by default** — no gradient heroes, no glow blobs behind content, no decorative dots. One accent, the rest neutral. This is hard: the mock must not look AI-generated.
 
+## Web shell (`web-shell.html`) — desktop + mobile at once
+
+For websites / web apps, copy `assets/web-shell.html` instead of the mobile shell. It renders **one** responsive page in two frames side by side — a laptop browser and a phone — so the RWD is visible at a glance ("here's desktop, here's mobile").
+
+- **Edit only inside `<template id="poc-app">`.** The shell mirrors that single page into both frames; you never touch the frames themselves.
+- **Breakpoints use `@container`, NOT `@media`.** Both frames share the same viewport, so `@media` would look identical in both. The shell makes each frame a query container — write e.g. `@container (min-width: 820px){ …desktop… }`, with the mobile layout as the base rules.
+- **Add sections** into `<main class="main">`; **nav** into `.side` (desktop sidebar) and `.topnav`. The default skeleton already reflows (sidebar → hidden, top nav → hamburger), so RWD shows the moment you open it.
+- **CSS-first.** If a section needs JS, put it in the shell's bottom `<script>` and attach it to every `.poc-app-root` (there are two copies).
+- Same golden rules as mobile: build only what's asked, real data, flat design, one stable URL all session.
+
 ## Incremental command vocabulary
 
 Recognize these naturally and make the **minimal** change:

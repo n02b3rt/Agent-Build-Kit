@@ -12,6 +12,8 @@ Quick "what to build / what data / what pitfalls" for the product types you most
 
 **Data:** believable records from the client's domain — real company/person names, sensible amounts and dates, varied statuses (not all "OK"). 8–15 rows is enough to look real. Charts: **load `dataviz`**, use data with a real shape (a trend, not a flat line).
 
+**How:** copy `assets/web-shell.html` — you'll see the dashboard on desktop and mobile at once. Use `@container` breakpoints so the layout reflows (sidebar collapses, wide table → stacked cards).
+
 **Pitfalls:** empty/placeholder cells; every row identical; a chart with no axes/context; trying to build a whole CRUD instead of one convincing view.
 
 ---
@@ -46,6 +48,6 @@ Quick "what to build / what data / what pitfalls" for the product types you most
 
 **Data:** believable copy from the client's domain (not "Your headline here"). Concrete benefits, plausible numbers/social proof. This sells the concept.
 
-**How:** live mode, Artifact, one nice scroll. Ensure responsiveness (the client may open it on a phone). Load `artifact-design`.
+**How:** copy `assets/web-shell.html` so the client sees the landing on desktop and mobile at once. One nice scroll, `@container` breakpoints. Load `artifact-design`.
 
 **Pitfalls:** filler text (lorem); vague CTAs ("Click here"); overload of sections — one strong narrative beats ten weak ones.
