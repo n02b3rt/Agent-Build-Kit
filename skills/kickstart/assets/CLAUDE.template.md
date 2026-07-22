@@ -20,11 +20,17 @@ When in doubt, the repository language wins for anything that lives in the repo.
 
 ---
 
+## Think before you touch (`<plan>`)
+
+Before any non-trivial code change or a complex problem, you must write your reasoning step by step inside `<plan> … </plan>` tags — analyze edge cases, likely bugs, and alternatives there. Only **below** the plan produce the final solution. This forces real thinking (extra tokens spent on reasoning), which sharply cuts hallucinations and careless mistakes. Skip only for truly trivial one-liners.
+
+---
+
 ## How we work (loop)
 
 For every change:
 1. **Understand** — check the "Project map" below and the relevant module / `docs/`. Read the code before you change it; don't guess.
-2. **Plan a small step** — one logical change at a time.
+2. **Plan a small step** — one logical change at a time; for anything non-trivial, write the `<plan>` block first (see above).
 3. **Build** — small files, single responsibility.
 4. **Verify** — run / test that it works.
 5. **Update the map/docs** — if a feature or module was added (see below).

@@ -46,6 +46,7 @@ The rules live in the project's `CLAUDE.md` (read it at the start of every sessi
 - **Docs with the code:** you change structure/behavior → update `docs/`. A complex domain gets its own file in `docs/`.
 - **Journal (`AI_NOTES.md`):** read it at the start of every session; at the end of every larger task add a dated entry (what was done, decisions, watch-outs). It's the memory that survives context resets.
 - **Context handoff:** when a session gets long and the model starts looping or nears the token limit, don't push on — reset. Dump the state (the ready prompt is in `CLAUDE.md`), open a fresh chat, paste it, continue. Capture the same in `AI_NOTES.md`.
+- **Plan before non-trivial work:** write reasoning in `<plan>…</plan>` (edge cases, bugs, alternatives) before the solution — it cuts hallucinations. Skip only for trivial one-liners.
 - **Healthy growth:** small files (single responsibility, split when >~300 lines or doing 2 things), module boundaries, no duplication, refactor as you go.
 - **Definition of done:** the code works **and** the map/docs are updated **and** it's committed.
 
