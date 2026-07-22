@@ -84,6 +84,18 @@ Details live outside this file so it stays lightweight:
 
 ---
 
+## Context handoff (session reset)
+
+An AI degrades when a chat gets too long (context pollution) or nears the token limit — it starts looping or making sloppy mistakes. When you notice that, don't push through it. Reset: get a clean technical dump, open a fresh chat, paste the dump, and continue on a fast, clean model.
+
+Prompt to paste when you want a handoff:
+
+> Produce a full technical dump of our current state (Context Handoff). List, in bullets: 1) exactly what we've done and that works, 2) where we're stuck / what we're working on now, 3) the next steps, 4) all key decisions and the names of changed files. Format it so I can paste it into a fresh chat and continue without losing context.
+
+Before ending a heavy session, capture the same summary in `AI_NOTES.md` so nothing is lost.
+
+---
+
 ## Healthy growth (so it doesn't become a colossus)
 
 - **Small files, single responsibility.** A file that does two things or grows past ~300 lines → split it.
