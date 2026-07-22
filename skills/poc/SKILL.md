@@ -52,6 +52,8 @@ The user must always see three things: what's live, the link, and the next move.
 
 The shell is already well-designed; keep it that way. **Flat by default, one accent from the domain, real data (never placeholders).** Banned: gradient heroes/buttons, glow/blobs behind content, decorative dots or ✨, everything-centered, emoji as section headers, glassmorphism, a shadow under everything, cream `#F4F1EA`+serif+terracotta.
 
+**Icons: inline SVG line-icons ONLY — NEVER emoji.** Emoji as UI icons read as a kids' app. The mobile shell ships an SVG sprite (`#i-calendar`, `#i-user`, `#i-scissors`, `#i-chevron`, …) — use `<svg viewBox="0 0 24 24"><use href="#i-…"/></svg>`; need a new icon → add a `<symbol>` to the sprite (24×24, stroke, `fill:none`). **Respect spacing** — give rows and sections real padding, don't cram; when a control is a `<button>`, keep `border:none` so it doesn't render browser box-borders.
+
 Accent quick-pick: health → calm blue/teal · fintech → navy or money-green · fitness → coral (often dark) · productivity/B2B → indigo/blue · education → warm friendly · dev/tech → mono / high-contrast.
 
 ## Golden rules
