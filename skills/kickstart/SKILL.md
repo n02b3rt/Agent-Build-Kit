@@ -30,7 +30,7 @@ Confirm with the user (if not given): project name, one-line description, stack,
 2. **Git.** If there's no repo → `git init`. Create a `.gitignore` matched to the stack.
 3. **Project settings.** Copy `assets/settings.template.json` → `.claude/settings.json` (disables "Co-Authored-By" → `includeCoAuthoredBy: false`).
 4. **CLAUDE.md.** Copy `assets/CLAUDE.template.md` → `CLAUDE.md` and fill `{{PROJECT_NAME}}`, `{{ONE_LINER}}`, `{{STACK}}`, `{{REPO_LANG}}`, `{{UI_LANG}}`. The templates are canonical **in English**; if `{{REPO_LANG}}` ≠ English, translate the content on write. Leave the map with 1–2 real rows to grow.
-5. **Docs.** Copy `assets/architecture.template.md` → `docs/architecture.md` and `assets/conventions.template.md` → `docs/conventions.md`, fill the placeholders (`{{DATE}}` = today, plus the languages). Same translation rule.
+5. **Docs & journal.** Copy `assets/architecture.template.md` → `docs/architecture.md`, `assets/conventions.template.md` → `docs/conventions.md`, and `assets/AI_NOTES.template.md` → `AI_NOTES.md` (repo root). Fill the placeholders (`{{DATE}}` = today, plus the languages). Same translation rule.
 6. **Skeleton.** A minimal folder structure for the stack (e.g. `src/`), only as much as needed — don't build ahead.
 7. **First commit** on `main`: `chore: project scaffold` (title in `{{REPO_LANG}}`). Short, no body, **no AI/tool mention**.
 8. **Working branch** for the first feature: `git checkout -b feat/<short>`.
@@ -44,6 +44,7 @@ The rules live in the project's `CLAUDE.md` (read it at the start of every sessi
 - **Git:** branches `feat/ fix/ refactor/ chore/`; commit = one logical change; title `type: short and on-point` (≤ ~60 chars), no long body except for large/important changes. **No AI/tool mention anywhere.**
 - **Project map:** after adding each feature, add a "where it lives" row in `CLAUDE.md`. Before building, check whether the feature already exists.
 - **Docs with the code:** you change structure/behavior → update `docs/`. A complex domain gets its own file in `docs/`.
+- **Journal (`AI_NOTES.md`):** read it at the start of every session; at the end of every larger task add a dated entry (what was done, decisions, watch-outs). It's the memory that survives context resets.
 - **Healthy growth:** small files (single responsibility, split when >~300 lines or doing 2 things), module boundaries, no duplication, refactor as you go.
 - **Definition of done:** the code works **and** the map/docs are updated **and** it's committed.
 
@@ -55,6 +56,7 @@ A "colossus on clay feet" happens because knowledge about the project lives only
 - `assets/CLAUDE.template.md` — the project constitution (map, git rules, growth).
 - `assets/settings.template.json` — `.claude/settings.json` that blocks AI/tool authorship (`includeCoAuthoredBy: false`).
 - `assets/architecture.template.md`, `assets/conventions.template.md` — `docs/` skeletons.
+- `assets/AI_NOTES.template.md` — running project journal, read at session start and updated after larger tasks.
 
 ## A note on git
 Keep commits clean and frequent. Don't add `--no-verify` or bypass hooks without an explicit request. Never put any AI/tool mention in commits, PRs, or docs — that's a hard rule of this skill.

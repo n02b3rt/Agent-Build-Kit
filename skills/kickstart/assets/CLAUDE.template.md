@@ -4,7 +4,7 @@
 
 **Stack:** {{STACK}}
 
-> This file is the project's constitution. Read it **at the start of every session** — it defines how we work and where things live. Keep it short: it is an index; details go in `docs/`.
+> This file is the project's constitution. Read it **at the start of every session** — together with `AI_NOTES.md` (the running journal). It defines how we work and where things live. Keep it short: it is an index; details go in `docs/`.
 
 ---
 
@@ -30,7 +30,7 @@ For every change:
 5. **Update the map/docs** — if a feature or module was added (see below).
 6. **Commit** — short title, following the convention.
 
-**Definition of done:** the code works **and** the map/docs are updated **and** it's committed. Without all three, the task isn't finished.
+**Definition of done:** the code works **and** the map/docs are updated **and** it's committed. For larger tasks, also add an entry to `AI_NOTES.md` (see below). Without this, the task isn't finished.
 
 ---
 
@@ -71,6 +71,16 @@ Details live outside this file so it stays lightweight:
 - Complex domain? Give it its own file in `docs/` (e.g. `docs/payments.md`) and link it from the map.
 
 **Rule:** docs travel with the code. Change behavior → update the relevant `docs/`. Stale docs are worse than none.
+
+---
+
+## Project journal — `AI_NOTES.md`
+
+`AI_NOTES.md` is the project's running memory, meant to survive between sessions and context resets.
+
+- **Read it at the start of every session.**
+- **At the end of every larger task**, add a short dated entry at the top: what was done, the architectural decisions made, and what to watch out for next time.
+- Keep it short and honest — it's for the next person or the next session, including future-you.
 
 ---
 
