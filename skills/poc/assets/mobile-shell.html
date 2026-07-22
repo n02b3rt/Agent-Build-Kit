@@ -1,0 +1,218 @@
+<title>PoC — mobile</title>
+<!--
+  ═══════════════════════════════════════════════════════════════════════
+  POC MOBILE SHELL — iPhone shell (a canvas for incremental building)
+  ───────────────────────────────────────────────────────────────────────
+  HOW TO USE (for the agent):
+  1. Replace <title> with the app name. The Artifact shows the PHONE ONLY — no
+     side panel. Assumptions go to the user in chat, not into the mock.
+  2. Set the project accent: change --accent (and --accent-ink if needed).
+  3. Add screens ONLY on the user's request, between the markers
+     POC:SCREENS. Each screen = <section class="poc-view" data-screen="id">.
+  4. Add nav items between the POC:TABS markers:
+     <button class="poc-tab" data-go="id"><span class="ic">🏠</span><span>Label</span></button>
+  5. Navigation: any element with data-go="id" moves to the screen with that id.
+     data-go="back" goes back. The router handles it — don't write your own nav JS.
+  6. Do NOT build features ahead of time. Real data, not placeholders. One tab = one link.
+  Dark app theme? Flip the tokens in :root (see the "DARK APP" comment).
+  ═══════════════════════════════════════════════════════════════════════
+-->
+<style>
+  :root{
+    /* --- page background (responds to the viewer's theme) --- */
+    --page-bg:#eef0f4; --page-bg2:#e4e7ee; --page-ink:#1b1a21; --page-mut:#5c5a66;
+    --page-line:rgba(0,0,0,.10); --page-card:#ffffff; --page-card-line:rgba(0,0,0,.07);
+
+    /* --- APP theme (light by default; swap --accent per project) --- */
+    --accent:#2f6fed; --accent-ink:#ffffff; --accent-weak:rgba(47,111,237,.12);
+    --bg:#f4f5f8; --surface:#ffffff; --surface-2:#eef0f4; --surface-3:#e6e9ef;
+    --line:rgba(15,18,25,.09); --line-2:rgba(15,18,25,.14);
+    --text:#14171d; --text-2:#5b616e; --text-3:#98a0ac;
+    --ok:#1aa06d; --warn:#c8890a; --danger:#d64545;
+    /* DARK APP (optional): --bg:#121319; --surface:#1b1d25; --surface-2:#22252f;
+       --surface-3:#2a2e39; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
+       --text:#f4f4f7; --text-2:#a7adba; --text-3:#6c727e; --accent-ink:#ffffff; */
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --page-bg:#0b0b0f; --page-bg2:#101017; --page-ink:#ecebf1; --page-mut:#948fa1;
+      --page-line:rgba(255,255,255,.10); --page-card:#17161d; --page-card-line:rgba(255,255,255,.08); }
+  }
+  :root[data-theme="light"]{ --page-bg:#eef0f4; --page-bg2:#e4e7ee; --page-ink:#1b1a21;
+    --page-mut:#5c5a66; --page-line:rgba(0,0,0,.10); --page-card:#ffffff; --page-card-line:rgba(0,0,0,.07); }
+  :root[data-theme="dark"]{ --page-bg:#0b0b0f; --page-bg2:#101017; --page-ink:#ecebf1;
+    --page-mut:#948fa1; --page-line:rgba(255,255,255,.10); --page-card:#17161d; --page-card-line:rgba(255,255,255,.08); }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; }
+  .poc-stage{
+    min-height:100vh; padding:36px 20px 48px;
+    background:var(--page-bg); /* FLAT. No glow/gradients behind the phone (see references/design-styles.md) */
+    color:var(--page-ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    display:flex; align-items:flex-start; justify-content:center;
+  }
+
+  /* ---------- device ---------- */
+  .poc-device{ width:min(390px,92vw); flex:0 0 auto; }
+  .poc-frame{
+    position:relative; width:100%; aspect-ratio:390/844; padding:13px; border-radius:58px;
+    background:linear-gradient(152deg,#3a3d46 0%,#17181d 46%,#0a0b0e 100%);
+    box-shadow:
+      inset 0 0 0 2px rgba(255,255,255,.06),
+      inset 0 2px 3px rgba(255,255,255,.14),
+      0 50px 90px -34px rgba(0,0,0,.62), 0 0 0 1px rgba(0,0,0,.45);
+  }
+  .poc-screen{
+    position:relative; width:100%; height:100%; border-radius:46px; overflow:hidden;
+    background:var(--bg); color:var(--text); display:flex; flex-direction:column;
+    font-size:15px; line-height:1.42;
+  }
+  .poc-island{ position:absolute; top:12px; left:50%; transform:translateX(-50%);
+    width:120px; height:34px; background:#000; border-radius:20px; z-index:8; }
+  .poc-statusbar{ flex:0 0 auto; height:54px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 30px 0 34px; position:relative; z-index:6; font-size:15px; font-weight:600; }
+  .poc-statusbar .clock{ font-variant-numeric:tabular-nums; letter-spacing:.01em; }
+  .poc-statusbar .sysr{ display:flex; align-items:center; gap:7px; }
+  .poc-sig{ display:inline-flex; align-items:flex-end; gap:2px; height:11px; }
+  .poc-sig i{ width:3px; background:currentColor; border-radius:1px; }
+  .poc-sig i:nth-child(1){height:4px} .poc-sig i:nth-child(2){height:6px}
+  .poc-sig i:nth-child(3){height:9px} .poc-sig i:nth-child(4){height:11px}
+  .poc-batt{ width:23px; height:12px; border:1.5px solid currentColor; border-radius:3px; padding:1.5px; position:relative; opacity:.9; }
+  .poc-batt::after{ content:""; position:absolute; right:-3px; top:3px; width:2px; height:5px; background:currentColor; border-radius:0 1px 1px 0; }
+  .poc-batt b{ display:block; height:100%; width:80%; background:currentColor; border-radius:1px; }
+
+  .poc-viewport{ flex:1 1 auto; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .poc-viewport::-webkit-scrollbar{ width:0; }
+  .poc-view{ display:none; padding:4px 20px 30px; animation:pocFade .26s ease; }
+  .poc-view.active{ display:block; }
+  @keyframes pocFade{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  @media (prefers-reduced-motion:reduce){ .poc-view{ animation:none; } }
+
+  /* pusty stan */
+  .poc-empty{ height:100%; min-height:520px; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; padding:0 34px; }
+  .poc-empty .glyph{ width:76px; height:76px; border-radius:22px; display:grid; place-items:center;
+    font-size:34px; background:var(--surface); border:1px dashed var(--line-2); margin-bottom:20px; color:var(--accent); }
+  .poc-empty h3{ margin:0 0 8px; font-size:18px; font-weight:800; letter-spacing:-.01em; }
+  .poc-empty p{ margin:0; font-size:13.5px; line-height:1.6; color:var(--text-2); }
+  .poc-empty code{ background:var(--surface-2); padding:2px 7px; border-radius:6px; font-size:12.5px; color:var(--text); }
+
+  /* home indicator */
+  .poc-home{ position:absolute; left:50%; bottom:9px; transform:translateX(-50%);
+    width:140px; height:5px; border-radius:3px; background:currentColor; opacity:.32; z-index:7; }
+
+  /* ---------- tab bar ---------- */
+  .poc-tabbar{ flex:0 0 auto; display:flex; gap:4px; padding:9px 16px 30px;
+    background:linear-gradient(180deg, transparent, var(--bg) 40%);
+    border-top:1px solid var(--line); position:relative; z-index:6; }
+  .poc-tab{ flex:1; background:none; border:none; cursor:pointer; font-family:inherit;
+    color:var(--text-3); display:flex; flex-direction:column; align-items:center; gap:4px; padding:5px 0; }
+  .poc-tab .ic{ font-size:21px; line-height:1; filter:grayscale(1); opacity:.7; }
+  .poc-tab span:not(.ic){ font-size:10.5px; font-weight:700; letter-spacing:.01em; }
+  .poc-tab.on{ color:var(--accent); } .poc-tab.on .ic{ filter:none; opacity:1; }
+
+  /* ═══ HELPER BLOCKS (for building screens fast) ═══ */
+  .poc-appbar{ display:flex; align-items:center; gap:12px; padding:8px 0 14px; }
+  .poc-appbar h1{ font-size:24px; font-weight:800; letter-spacing:-.02em; margin:0; }
+  .poc-appbar .back{ width:38px; height:38px; border-radius:12px; border:1px solid var(--line);
+    background:var(--surface); color:var(--text); font-size:19px; cursor:pointer; flex:0 0 auto; }
+  .poc-appbar .sp{ margin-left:auto; }
+  .poc-card{ background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:16px; }
+  .poc-card + .poc-card{ margin-top:12px; }
+  .poc-sec{ font-size:12px; text-transform:uppercase; letter-spacing:.09em; color:var(--text-2);
+    font-weight:800; margin:22px 0 11px; }
+  .poc-btn{ display:flex; align-items:center; justify-content:center; gap:8px; width:100%; border:none;
+    cursor:pointer; font-family:inherit; font-size:16px; font-weight:800; padding:15px; border-radius:15px;
+    background:var(--accent); color:var(--accent-ink); box-shadow:0 12px 24px -12px var(--accent);
+    transition:transform .12s, filter .12s; }
+  .poc-btn:hover{ filter:brightness(1.05); } .poc-btn:active{ transform:scale(.98); }
+  .poc-btn.ghost{ background:var(--surface-2); color:var(--text); box-shadow:none; border:1px solid var(--line-2); }
+  .poc-row{ display:flex; align-items:center; gap:13px; padding:13px 2px; border-top:1px solid var(--line);
+    width:100%; background:none; text-align:left; font-family:inherit; color:var(--text); cursor:pointer; }
+  .poc-row:first-of-type{ border-top:none; }
+  .poc-row .ic{ width:40px; height:40px; border-radius:12px; background:var(--surface-2); display:grid;
+    place-items:center; font-size:19px; flex:0 0 auto; }
+  .poc-row .tl{ font-size:14.5px; font-weight:600; }
+  .poc-row .st{ font-size:12.5px; color:var(--text-2); margin-top:2px; }
+  .poc-row .chev{ margin-left:auto; color:var(--text-3); font-size:18px; }
+  .poc-pill{ font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+    padding:4px 9px; border-radius:999px; background:var(--accent-weak); color:var(--accent); }
+  .poc-pill.ok{ background:rgba(26,160,109,.14); color:var(--ok); }
+  .poc-pill.warn{ background:rgba(200,137,10,.15); color:var(--warn); }
+</style>
+
+<div class="poc-stage">
+  <div class="poc-device">
+    <div class="poc-frame">
+      <div class="poc-screen">
+        <div class="poc-island"></div>
+        <div class="poc-statusbar">
+          <span class="clock">9:41</span>
+          <span class="sysr">
+            <span class="poc-sig"><i></i><i></i><i></i><i></i></span>
+            <span style="font-size:12px;font-weight:700">5G</span>
+            <span class="poc-batt"><b></b></span>
+          </span>
+        </div>
+
+        <main class="poc-viewport">
+          <!-- ══════════ POC:SCREENS-START ══════════ -->
+          <section class="poc-view active" data-screen="_empty">
+            <div class="poc-empty">
+              <div class="glyph">＋</div>
+              <h3>Empty mock — ready to build</h3>
+              <p>Tell me which screen to add first,<br>e.g. <code>add a sign-in screen</code></p>
+            </div>
+          </section>
+          <!-- ══════════ POC:SCREENS-END ══════════ -->
+        </main>
+
+        <nav class="poc-tabbar" style="display:none">
+          <!-- ══════════ POC:TABS-START ══════════ -->
+          <!-- ══════════ POC:TABS-END ══════════ -->
+        </nav>
+
+        <div class="poc-home"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var stage = document.currentScript.closest('.poc-stage');
+  function views(){ return Array.prototype.slice.call(stage.querySelectorAll('.poc-view')); }
+  function tabs(){ return Array.prototype.slice.call(stage.querySelectorAll('.poc-tab')); }
+  var tabbar = stage.querySelector('.poc-tabbar');
+  var stack = [];
+  function real(){ return views().filter(function(v){ return v.dataset.screen && v.dataset.screen.charAt(0)!=='_'; }); }
+
+  function show(id, noPush){
+    var all = views(), cur=null, target=null;
+    all.forEach(function(v){ if(v.classList.contains('active')) cur=v.dataset.screen; });
+    all.forEach(function(v){ var on=v.dataset.screen===id; v.classList.toggle('active',on); if(on) target=v; });
+    if(!target) return;
+    if(!noPush && cur && cur!==id) stack.push(cur);
+    var matched = tabs().some(function(t){ return t.dataset.go===id; });
+    if(matched) tabs().forEach(function(t){ t.classList.toggle('on', t.dataset.go===id); });
+    var vp = stage.querySelector('.poc-viewport'); if(vp) vp.scrollTop = 0;
+  }
+  function back(){ var p = stack.pop(); if(p) show(p, true); }
+
+  stage.addEventListener('click', function(ev){
+    var t = ev.target.closest('[data-go]'); if(!t || !stage.contains(t)) return;
+    ev.preventDefault();
+    (t.dataset.go==='back') ? back() : show(t.dataset.go);
+  });
+
+  (function init(){
+    var r = real();
+    if(tabbar) tabbar.style.display = r.length ? 'flex' : 'none';
+    var def = r.filter(function(v){ return v.hasAttribute('data-default'); })[0] || r[0];
+    if(def){ show(def.dataset.screen, true); }
+    else { var e = stage.querySelector('[data-screen="_empty"]'); if(e) e.classList.add('active'); }
+  })();
+
+  window.POC = { go: show, back: back };
+})();
+</script>
