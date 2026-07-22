@@ -17,58 +17,39 @@ description: >-
 
 # PoC — fast clickable mockups for a PM
 
-This skill turns an idea into something tangible before anyone asks "so how would this look?". It's used by a PM whose most common task is to **show a client how something could look and work — often live, mid-conversation**.
+Turn an idea into something tangible, **live in a conversation**. A PoC is not a product — mock the data, cut corners, skip edge cases. One thing matters: does it show ONE thesis well enough to get a "wow". Working-and-now beats perfect-in-a-week.
 
-Core principle: **a PoC is not a product.** You may mock data, cut corners, skip edge cases and the logic underneath. Only one thing matters: does this artifact **show a single thesis** well enough to get a "wow" and a reaction from the client. Working-and-now beats perfect-in-a-week.
+(Technical feasibility or building it **for real** → not this skill, use `kickstart`.)
 
-(Want to check *technical feasibility* or build this **for real** as a project? That's not this skill — use `kickstart`.)
+## Live fast path — no extra reading needed
 
-**Language of the mock's content:** default to the client's / product's language (Polish for PL clients) — ask if unclear. These skill instructions are in English, but the mock's visible text is written in the audience's language.
+This is the default. Speed matters: get to a published mockup in one pass, **without reading the reference files or loading other skills first.** Everything you need for the first mock is here or in the shell's own header comment.
 
-## How it works: a device shell, built incrementally
+1. **Pick the shell.** Mobile app → `assets/mobile-shell.html` (iPhone). Website / web app / anything responsive → `assets/web-shell.html` (shows desktop + mobile at once — instant RWD).
+2. **Scaffold (Phase 1).** Copy the shell to a working file; set `<title>` + the brand name + one `--accent` (domain hints below). Publish via `Artifact`; keep the `file_path` + URL. Give the link, ask "what do we start with?". **Don't invent features** — an empty shell is a valid first result.
+3. **Grow (Phase 2).** Each user message = one change. Edit the same file, **republish to the same `file_path`** (same URL). No need to repeat `/poc`.
 
-**You don't build the whole app at once.** You start from an empty, polished device shell and add features **one at a time, only when explicitly asked**. One tab = one stable link = an app that grows in front of the client.
+**The shell's header comment tells you how to add screens/sections and wire navigation — follow it.** Don't ask the user much; assume sensibly and say your assumption in chat so they can correct on the fly.
 
-**Before you start, read `references/mock-canvas.md`** — the full canvas guide (phases, how to add screens, building blocks, incremental commands, keeping the same URL). Read it once up front so you can then move fast.
+## Anti-slop — inline, non-negotiable
 
-### Shared start
-1. **Capture ONE thesis.** State in one sentence: *what should this mock show?* That's the north star.
-2. **Detect the surface.** Mobile app → copy `assets/mobile-shell.html` (iPhone shell). Website / web app / anything responsive → copy `assets/web-shell.html` — it shows the **same page on desktop and mobile at once**, so the client sees the RWD immediately. In the web shell write responsive CSS with `@container`, not `@media` (the shell provides the container; `@media` would look identical in both frames).
-3. **Build** (see phases below).
-4. **Deliver** — the link plus 2–3 sentences of "what this shows", a ready script to read to the client.
+The shell is already well-designed; keep it that way. **Flat by default, one accent from the domain, real data (never placeholders).** Banned: gradient heroes/buttons, glow/blobs behind content, decorative dots or ✨, everything-centered, emoji as section headers, glassmorphism, a shadow under everything, cream `#F4F1EA`+serif+terracotta.
 
-Ask about the idea **sparingly** — you're a PM, you have context. Instead of asking, make a reasonable assumption and **tell the user in chat** (not in the mock) so they can correct on the fly. Questions cost the most while a client is watching — there, assume and build.
+Accent quick-pick: health → calm blue/teal · fintech → navy or money-green · fitness → coral (often dark) · productivity/B2B → indigo/blue · education → warm friendly · dev/tech → mono / high-contrast.
 
-### Flow (2 phases)
-1. **Phase 1 — Canvas:** copy the shell to a working file, set the name + `<title>` + direction/accent (see `references/design-styles.md`), publish via `Artifact`, **remember the `file_path` and URL**. Give the link and ask "where do we start?". An empty shell is a valid Phase 1 result — **don't invent features.**
-2. **Phase 2 — Features:** every following message from the user = one change. Edit the same file, **republish to the same `file_path`** (same URL). Within a session the user doesn't need to repeat `/poc`.
+## Golden rules
+- **Build only what was asked. Zero features ahead of time.**
+- **"App" = show the product UI**, never a marketing hero/landing/pricing (unless explicitly asked).
+- **Artifact = the app only** — no side panels or "assumptions" in the mock; assumptions go to the user in chat.
+- **Real data** from the client's domain; **mock content in the client's/product's language** (Polish for PL clients).
+- **Same link all session** — republish the same file.
+- **Don't gold-plate** the shell — spend energy on features.
+- **Web shell:** responsive CSS uses `@container`, not `@media`.
 
-**Before you build anything visual, load the `artifact-design` skill.** For charts — `dataviz`.
-
-### Golden rules (this is the core)
-- **Build only what was asked. Zero features ahead of time.** Not asked → not in the mock.
-- **App ≠ marketing page.** "App" = you show the product (the UI), never a hero/landing/pricing page, unless the user explicitly asks.
-- **Artifact = the app only.** No side panels, notes, or "assumptions" in the mock — the client sees only the device. Assumptions and questions go to the user in chat.
-- **Real data, not placeholders** — plausible names/amounts/dates from the client's domain.
-- **Same link all session** — republish to the same `file_path`.
-- **Don't gold-plate** — the shell is already pretty; spend energy on features, not on the frame's cosmetics.
-
-## Quality bar
-- **ZERO AI slop.** This is hard. Before setting colors/typography, read `references/design-styles.md` and pick **one deliberate direction** matched to the app. Banned by default: gradient heroes/buttons, radial "glow"/blobs behind content, decorative dots and ✨, everything-centered, emoji as section headers, glassmorphism for no reason, a shadow under everything, Inter/Space Grotesk for everything, cream `#F4F1EA`+serif+terracotta. Default: **flat fills, one accent from the domain, hierarchy, a chosen palette.** The mock must look like a real product designed by someone with taste.
-- **Realistic data** instead of placeholders — the most important thing.
-- **Polished enough, not pixel-perfect** — clean and bug-free on the happy path, but don't hunt pixels.
-- **One thesis, one path** — resist scope creep.
-
-## Skill files
-- **`references/design-styles.md`** — a library of design directions + the AI-slop ban list (read before setting colors/typography).
-- **`references/mock-canvas.md`** — the canvas guide (read at the start of a session).
-- **`assets/mobile-shell.html`** — the iPhone shell (copy it, don't regenerate).
-- **`assets/web-shell.html`** — the web shell: one responsive page mirrored to a desktop browser frame and a phone frame at once (RWD preview). Use `@container` for breakpoints.
-- **`references/domains.md`** — "what to build / what data / pitfalls" recipes per domain.
-
-## Use other skills
-- `artifact-design` — always before building an Artifact.
-- `dataviz` — before any chart/dashboard.
-- `web-artifacts-builder` — complex React artifacts (state, routing).
-- `product-management:*` — when the idea itself needs sharpening before the mock.
-- `kickstart` — when the idea is validated and it's time to build the real project.
+## Need more? (optional — read on demand, NOT before the first mock)
+Reach for these only when a specific need comes up — never as a warm-up:
+- `references/mock-canvas.md` — deep guide: incremental command vocabulary, building blocks, web `@container` details. Read when the shell's header comment isn't enough.
+- `references/design-styles.md` — full direction library. Read only for an elaborate/branded look beyond the flat default.
+- `references/domains.md` — per-domain "what to build / data / pitfalls".
+- `artifact-design` skill — only for a bespoke visual beyond the shell. `dataviz` — only when adding a chart. `web-artifacts-builder` — complex multi-view React.
+- `kickstart` — when the idea is validated and it's time to build for real.
