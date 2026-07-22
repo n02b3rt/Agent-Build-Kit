@@ -180,7 +180,7 @@
 
 <script>
 (function(){
-  var stage = document.currentScript.closest('.poc-stage');
+  var stage = document.querySelector('.poc-stage') || document;
   function views(){ return Array.prototype.slice.call(stage.querySelectorAll('.poc-view')); }
   function tabs(){ return Array.prototype.slice.call(stage.querySelectorAll('.poc-tab')); }
   var tabbar = stage.querySelector('.poc-tabbar');
