@@ -6,7 +6,8 @@ description: >-
   skill whenever the user wants to: build a clickable app mockup, show how something could
   look or work, visualize an idea for a client, or make a quick mockup. Trigger on phrases
   like "aplikacja mobilna do X", "apka do Y", "zbuduj mock", "pokaż jak to mogłoby wyglądać",
-  "zwizualizuj pomysł", "szybki mockup dla klienta", "mobile app for X", "app for Y", "build
+  "zwizualizuj pomysł", "szybki mockup dla klienta", "makieta aplikacji", "wireframe ekranu",
+  "mobile app for X", "app for Y", "wireframe a screen", "build
   a mock", "show how this could look", "prototype for the client", "quick mockup", "zróbmy
   PoC", "proof of concept", "quick prototype" — even if the user never says the word "PoC".
   Especially: when the user describes an app and wants to see or click through it, this is the

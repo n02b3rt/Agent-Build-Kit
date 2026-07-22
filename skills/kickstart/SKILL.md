@@ -6,7 +6,7 @@ description: >-
   living architecture map of "where things live", a docs/ structure, and healthy-growth rules
   — so the project doesn't turn into a colossus on clay feet. Use THIS skill when the user:
   starts a new project / repo, says "nowy projekt", "zacznijmy projekt", "init", "setup
-  projektu", "kickstart", "new project", "set up a repo", "let's build this for real", "move
+  projektu", "kickstart", "szkielet projektu", "scaffold a project", "boilerplate", "załóż repo", "new project", "set up a repo", "let's build this for real", "move
   from PoC to a real project", or starts coding something meant to live longer than one mock.
   It also configures a fixed repository language (kills "Ponglish") and removes any AI/tool
   authorship from commits and docs. This is NOT for one-off PoCs (use the `poc` skill) — it's
