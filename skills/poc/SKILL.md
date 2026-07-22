@@ -21,15 +21,25 @@ Turn an idea into something tangible, **live in a conversation**. A PoC is not a
 
 (Technical feasibility or building it **for real** → not this skill, use `kickstart`.)
 
-## Live fast path — no extra reading needed
+## Live fast path — SPEED FIRST (this is the default)
 
-This is the default. Speed matters: get to a published mockup in one pass, **without reading the reference files or loading other skills first.** Everything you need for the first mock is here or in the shell's own header comment.
+On `/poc live: <idea>` the client is often watching. **Get to a published EMPTY mock in seconds, then add features on request.** Do exactly this, nothing more:
 
-1. **Pick the shell.** Mobile app → `assets/mobile-shell.html` (iPhone). Website / web app / anything responsive → `assets/web-shell.html` (shows desktop + mobile at once — instant RWD).
-2. **Scaffold (Phase 1).** Copy the shell to a working file; set `<title>` + the brand name + one `--accent` (domain hints below). Publish via `Artifact`; keep the `file_path` + URL. Give the link, ask "what do we start with?". **Don't invent features** — an empty shell is a valid first result.
-3. **Grow (Phase 2).** Each user message = one change. Edit the same file, **republish to the same `file_path`** (same URL). No need to repeat `/poc`.
+1. **Pick the shell** from the idea: mobile app → `assets/mobile-shell.html`; website / web app / responsive → `assets/web-shell.html`.
+2. **Copy** it to a working file. For the empty scaffold you only change `<title>`, the brand name, and one `--accent` (domain hints below) — nothing else.
+3. **Publish** via `Artifact`. Reply with the link in **one line** + "what do we build first?". Keep the `file_path` + URL.
 
-**The shell's header comment tells you how to add screens/sections and wire navigation — follow it.** Don't ask the user much; assume sensibly and say your assumption in chat so they can correct on the fly.
+**At init, do NOT (this is what makes it slow):**
+- **Do NOT read** `mock-canvas.md`, `design-styles.md`, `domains.md`, or load `artifact-design` / `dataviz`. Everything you need is inline in this file. Reading them first just makes the client wait.
+- **Do NOT write an analysis** — no "Thesis / Surface / Direction / Assumptions" essay. Skip it entirely.
+- **Do NOT deliberate** over the app name or ask about language. Default silently: name from the idea, content language = the language of the user's request (Polish for PL clients). At most one short line if you assumed something.
+- **Do NOT invent features.** The first result is the empty, polished shell. Full stop.
+
+The whole init = pick → copy → set title/accent → publish → one-line link + "what first?". Apply the anti-slop and golden rules below **silently** — don't narrate them.
+
+**Phase 2 — features:** each user message = one change. Edit the same file, **republish to the same `file_path`** (same URL), no need to repeat `/poc`. The shell's header comment shows how to add screens/sections — glance at that if needed, not the reference files.
+
+**Running on an existing app / repo?** Different job: read the app's current code and build an HTML replica of its key screens (so the client sees "what we have today"), then iterate. That's the one case where you read existing code before building.
 
 ## Anti-slop — inline, non-negotiable
 
