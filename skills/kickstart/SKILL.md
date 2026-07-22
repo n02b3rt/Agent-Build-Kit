@@ -21,12 +21,9 @@ The solution in one sentence: **git from the first minute + a `CLAUDE.md` with a
 
 ## Phase 1 — Setup (done once, at the start)
 
-Confirm with the user (if not given): project name, one-line description, stack, **and the languages** (step 1). Then:
+**Move fast — default, don't interrogate.** Infer the project name, one-line description, and stack from what the user already said; use sensible defaults for the rest. State your assumptions in ONE line and just go — don't stop to run a questionnaire about language or other setup trivia. Ask only if something essential is genuinely missing and unguessable (e.g. no stack at all). Then:
 
-1. **Set the languages first — this kills "Ponglish".** Two axes, independent of the chat language:
-   - **Repository language `{{REPO_LANG}}`** — code, identifiers, comments, commits, `docs/`, README, `CLAUDE.md`. **Default English** (recommended: LLMs and developers work best in it, and the repo reads professionally). Propose English and confirm.
-   - **User-facing content language `{{UI_LANG}}`** — text visible in the app, copy, seed data. Default: the product's/audience's language (e.g. Polish).
-   - **The chat language stays as-is** — you don't set it; you still reply to the user in their language. Typical setup: they write in Polish, the repo is English, the UI is Polish. **The repo stays in `{{REPO_LANG}}` regardless of the chat language.**
+1. **Languages — default, don't ask.** Repo language `{{REPO_LANG}}` = **English** by default (code, comments, commits, `docs/`, README, `CLAUDE.md`). User-facing content `{{UI_LANG}}` = the audience's language (infer it; if unclear, the user's chat language). Chat language stays whatever they type. Just **state it in one line** ("repo: English, UI: Polish — tell me if you want otherwise") and move on. Setting these kills Ponglish; it is NOT a blocking question. The repo stays `{{REPO_LANG}}` regardless of the chat language.
 2. **Git.** If there's no repo → `git init`. Create a `.gitignore` matched to the stack.
 3. **Project settings.** Copy `assets/settings.template.json` → `.claude/settings.json` (disables "Co-Authored-By" → `includeCoAuthoredBy: false`).
 4. **CLAUDE.md.** Copy `assets/CLAUDE.template.md` → `CLAUDE.md` and fill `{{PROJECT_NAME}}`, `{{ONE_LINER}}`, `{{STACK}}`, `{{REPO_LANG}}`, `{{UI_LANG}}`. The templates are canonical **in English**; if `{{REPO_LANG}}` ≠ English, translate the content on write. Leave the map with 1–2 real rows to grow.
