@@ -36,6 +36,9 @@
     --line:rgba(15,18,25,.09); --line-2:rgba(15,18,25,.14);
     --text:#14171d; --text-2:#5b616e; --text-3:#98a0ac;
     --ok:#1aa06d; --warn:#c8890a; --danger:#d64545;
+    /* 8pt spacing scale + type scale (research-backed — see references/design-fundamentals.md) */
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:64px;
+    --t-cap:12px; --t-sm:13px; --t-body:16px; --t-lg:18px; --t-h3:20px; --t-h2:24px; --t-h1:30px;
     /* DARK APP (optional): --bg:#121319; --surface:#1b1d25; --surface-2:#22252f;
        --surface-3:#2a2e39; --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.15);
        --text:#f4f4f7; --text-2:#a7adba; --text-3:#6c727e; --accent-ink:#ffffff; */
@@ -120,18 +123,18 @@
   .poc-tab.on{ color:var(--accent); } .poc-tab.on .ic{ opacity:1; }
 
   /* ═══ HELPER BLOCKS (for building screens fast) ═══ */
-  .poc-appbar{ display:flex; align-items:center; gap:12px; padding:8px 0 14px; }
+  .poc-appbar{ display:flex; align-items:center; gap:12px; padding:8px 0 16px; }
   .poc-appbar h1{ font-size:24px; font-weight:800; letter-spacing:-.02em; margin:0; }
-  .poc-appbar .back{ width:38px; height:38px; border-radius:12px; border:1px solid var(--line);
+  .poc-appbar .back{ width:40px; height:40px; border-radius:12px; border:1px solid var(--line);
     background:var(--surface); color:var(--text); cursor:pointer; flex:0 0 auto; display:grid; place-items:center; }
   .poc-appbar .back svg{ width:21px; height:21px; }
   .poc-appbar .sp{ margin-left:auto; }
   .poc-card{ background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:16px; }
   .poc-card + .poc-card{ margin-top:12px; }
   .poc-sec{ font-size:12px; text-transform:uppercase; letter-spacing:.09em; color:var(--text-2);
-    font-weight:800; margin:22px 0 11px; }
+    font-weight:800; margin:24px 0 12px; }
   .poc-btn{ display:flex; align-items:center; justify-content:center; gap:8px; width:100%; border:none;
-    cursor:pointer; font-family:inherit; font-size:16px; font-weight:800; padding:15px; border-radius:15px;
+    cursor:pointer; font-family:inherit; font-size:16px; font-weight:800; padding:16px; border-radius:15px;
     background:var(--accent); color:var(--accent-ink); box-shadow:0 12px 24px -12px var(--accent);
     transition:transform .12s, filter .12s; }
   .poc-btn:hover{ filter:brightness(1.05); } .poc-btn:active{ transform:scale(.98); }

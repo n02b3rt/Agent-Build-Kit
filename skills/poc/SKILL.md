@@ -52,7 +52,9 @@ The user must always see three things: what's live, the link, and the next move.
 
 The shell is already well-designed; keep it that way. **Flat by default, one accent from the domain, real data (never placeholders).** Banned: gradient heroes/buttons, glow/blobs behind content, decorative dots or ✨, everything-centered, emoji as section headers, glassmorphism, a shadow under everything, cream `#F4F1EA`+serif+terracotta.
 
-**Icons: inline SVG line-icons ONLY — NEVER emoji.** Emoji as UI icons read as a kids' app. The mobile shell ships an SVG sprite (`#i-calendar`, `#i-user`, `#i-scissors`, `#i-chevron`, …) — use `<svg viewBox="0 0 24 24"><use href="#i-…"/></svg>`; need a new icon → add a `<symbol>` to the sprite (24×24, stroke, `fill:none`). **Respect spacing** — give rows and sections real padding, don't cram; when a control is a `<button>`, keep `border:none` so it doesn't render browser box-borders.
+**Icons: inline SVG line-icons ONLY — NEVER emoji.** Emoji as UI icons read as a kids' app. The mobile shell ships an SVG sprite (`#i-calendar`, `#i-user`, `#i-scissors`, `#i-chevron`, …) — use `<svg viewBox="0 0 24 24"><use href="#i-…"/></svg>`; need a new icon → add a `<symbol>` to the sprite (24×24, stroke, `fill:none`). When a control is a `<button>`, keep `border:none` so it doesn't render browser box-borders.
+
+**Proportions — baked into the shells' tokens, use them (don't eyeball):** 8pt spacing `--s1..--s8` = 4/8/12/16/24/32/48/64 → card padding 16, section gaps 24–32, ≥8px between taps. Touch targets ≥44px. Body ≥16px, line-height 1.4–1.5; headings 1.5–2× body via `--t-*`. Web body text `max-width:66ch`. Full detail: `references/design-fundamentals.md`.
 
 Accent quick-pick: health → calm blue/teal · fintech → navy or money-green · fitness → coral (often dark) · productivity/B2B → indigo/blue · education → warm friendly · dev/tech → mono / high-contrast.
 
@@ -69,6 +71,7 @@ Accent quick-pick: health → calm blue/teal · fintech → navy or money-green 
 Reach for these only when a specific need comes up — never as a warm-up:
 - `references/mock-canvas.md` — deep guide: incremental command vocabulary, building blocks, web `@container` details. Read when the shell's header comment isn't enough.
 - `references/design-styles.md` — full direction library. Read only for an elaborate/branded look beyond the flat default.
+- `references/design-fundamentals.md` — proportions cheat-sheet (8pt grid, touch targets, type scale, line length). The essentials are already inline above + baked into tokens; read for depth.
 - `references/domains.md` — per-domain "what to build / data / pitfalls".
 - `artifact-design` skill — only for a bespoke visual beyond the shell. `dataviz` — only when adding a chart. `web-artifacts-builder` — complex multi-view React.
 - `kickstart` — when the idea is validated and it's time to build for real.
