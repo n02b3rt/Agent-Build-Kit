@@ -65,6 +65,7 @@ Accent quick-pick: health → calm blue/teal · fintech → navy or money-green 
 - **Real data** from the client's domain; **mock content in the client's/product's language** (Polish for PL clients).
 - **Same link all session** — republish the same file.
 - **Don't gold-plate** the shell — spend energy on features.
+- **Assemble from the shell's widgets** — both shells ship ready blocks (KPI tiles, avatar, chips, toggle, segmented, input, progress, mini bar-chart, callout, table…). Use them instead of hand-writing CSS; the full list is in the shell's header comment. Faster and consistent.
 - **Web shell:** responsive CSS uses `@container`, not `@media`.
 
 ## Need more? (optional — read on demand, NOT before the first mock)

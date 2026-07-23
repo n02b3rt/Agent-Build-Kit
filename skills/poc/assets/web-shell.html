@@ -16,6 +16,10 @@
   4. Add sections into <main class="main">, nav into .side (desktop) and .topnav.
   5. Do NOT build features ahead of time. Real data, not placeholders. Flat design
      (see references/design-styles.md). One tab = one link that grows.
+  WIDGETS — ready blocks for <main class="main"> (assemble, don't hand-roll):
+     .wcard  .wstats/.wstat (KPI: .k/.v/.d)  .wtable(th/td)  .wfield(label+.box)  .wchip
+     .wnote (callout)  .wbtn(+.ghost)  .wtabs(a,a.on)  .wgrid  .wtext (paragraph ≤66ch).
+     Spacing/type tokens: --s1..--s8, --t-cap..--t-h1, --measure(66ch).
   Note: the app is CSS-first. If you need JS, put it in the shell <script> at the
   bottom and attach to every .poc-app-root (there are two copies).
   ═══════════════════════════════════════════════════════════════════════
@@ -85,6 +89,31 @@
   .poc-app-root{ container-type:inline-size; overflow:auto; background:var(--bg); }
   .poc-app-root::-webkit-scrollbar{ width:0; height:0; }
 
+  /* ═══ WEB WIDGETS — use inside <main class="main">; assemble, don't hand-roll ═══ */
+  .wcard{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:20px; }
+  .wgrid{ display:grid; gap:16px; }
+  .wstats{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .wstat{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:18px; }
+  .wstat .k{ font-size:13px; font-weight:700; color:var(--text-2); }
+  .wstat .v{ font-size:30px; font-weight:800; letter-spacing:-.02em; margin-top:6px; font-variant-numeric:tabular-nums; }
+  .wstat .d{ font-size:13px; font-weight:700; color:var(--ok); margin-top:4px; } .wstat .d.down{ color:var(--danger); }
+  .wtable{ width:100%; border-collapse:collapse; font-size:14px; }
+  .wtable th{ text-align:left; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--text-3);
+    font-weight:700; padding:10px 12px; border-bottom:1px solid var(--line); }
+  .wtable td{ padding:12px; border-bottom:1px solid var(--line); color:var(--text); }
+  .wtable tr:last-child td{ border-bottom:none; }
+  .wfield{ display:block; margin-bottom:16px; }
+  .wfield label{ display:block; font-size:13px; font-weight:700; color:var(--text-2); margin-bottom:7px; }
+  .wfield .box{ width:100%; height:44px; border:1px solid var(--line-2); border-radius:10px; background:var(--surface);
+    padding:0 14px; display:flex; align-items:center; color:var(--text); } .wfield .box.ph{ color:var(--text-3); }
+  .wchip{ display:inline-flex; padding:6px 12px; border-radius:999px; background:var(--accent-weak); color:var(--accent); font-size:12.5px; font-weight:700; }
+  .wnote{ display:flex; gap:12px; background:var(--accent-weak); border-radius:12px; padding:14px 16px; font-size:14px; color:var(--text); }
+  .wbtn{ padding:11px 18px; border:none; border-radius:11px; background:var(--accent); color:var(--accent-ink); font-weight:800; font-size:14px; cursor:pointer; font-family:inherit; }
+  .wbtn.ghost{ background:var(--surface-2); color:var(--text); border:1px solid var(--line-2); }
+  .wtabs{ display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:18px; }
+  .wtabs a{ padding:11px 14px; font-size:14px; font-weight:700; color:var(--text-2); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; }
+  .wtabs a.on{ color:var(--accent); border-bottom-color:var(--accent); }
+  .wtext{ max-width:var(--measure); }
   @media (max-width:760px){ :root{ --d-scale:.4; --m-scale:.78; } }
 </style>
 

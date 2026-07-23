@@ -21,6 +21,14 @@
      back button: <button class="back" data-go="back"><svg viewBox="0 0 24 24"><use href="#i-chevron-left"/></svg></button>
      Available ids: i-home i-calendar i-clock i-user i-users i-scissors i-bell i-trending i-chart
      i-plus i-chevron i-chevron-left i-search i-settings i-pin i-card i-check i-heart i-dumbbell.
+
+  WIDGETS — assemble screens from these ready blocks (classes live in <style>); add class "on" for
+  active/selected state. Don't hand-roll what already exists:
+     .poc-card  .poc-row(+.ic/.acc,.tl,.st,.chev)  .poc-btn(+.ghost)  .poc-pill(+.ok/.warn)
+     .poc-stats/.poc-stat (KPI: .k/.v/.d, .d.down)  .poc-av(+.sm/.lg) (avatar initials)
+     .poc-chips/.poc-chip  .poc-switch (toggle)  .poc-seg>button (segmented)
+     .poc-field(label+.box, .box.ph)  .poc-bar>i (progress)  .poc-chart>i(+.on) (mini bars)
+     .poc-sechead(h3+a)  .poc-note(.ic+.tx) (callout)  .poc-tab .badge (nav count)
   Dark app theme? Flip the tokens in :root (see the "DARK APP" comment).
   ═══════════════════════════════════════════════════════════════════════
 -->
@@ -157,6 +165,60 @@
     padding:4px 9px; border-radius:999px; background:var(--accent-weak); color:var(--accent); }
   .poc-pill.ok{ background:rgba(26,160,109,.14); color:var(--ok); }
   .poc-pill.warn{ background:rgba(200,137,10,.15); color:var(--warn); }
+
+  /* ═══ WIDGETS — assemble screens from these, don't hand-roll ═══ */
+  /* KPI / stat tile */
+  .poc-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .poc-stat{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:16px; }
+  .poc-stat .k{ font-size:12px; font-weight:700; color:var(--text-2); letter-spacing:.02em; }
+  .poc-stat .v{ font-size:26px; font-weight:800; letter-spacing:-.02em; margin-top:6px; font-variant-numeric:tabular-nums; }
+  .poc-stat .v small{ font-size:14px; color:var(--text-2); font-weight:600; }
+  .poc-stat .d{ font-size:12px; font-weight:700; margin-top:4px; color:var(--ok); }
+  .poc-stat .d.down{ color:var(--danger); }
+  /* avatar (initials) */
+  .poc-av{ width:44px; height:44px; border-radius:50%; background:var(--accent-weak); color:var(--accent);
+    display:grid; place-items:center; font-weight:800; font-size:16px; flex:0 0 auto; }
+  .poc-av.sm{ width:32px; height:32px; font-size:13px; } .poc-av.lg{ width:64px; height:64px; font-size:22px; }
+  /* chips (selectable) */
+  .poc-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .poc-chip{ padding:8px 14px; border-radius:999px; border:1px solid var(--line-2); background:var(--surface);
+    font-size:13px; font-weight:600; color:var(--text-2); cursor:pointer; font-family:inherit; }
+  .poc-chip.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  /* toggle switch */
+  .poc-switch{ width:46px; height:28px; border-radius:999px; background:var(--surface-3); position:relative;
+    border:none; cursor:pointer; flex:0 0 auto; transition:background .15s; }
+  .poc-switch::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%;
+    background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.25); transition:transform .15s; }
+  .poc-switch.on{ background:var(--accent); } .poc-switch.on::after{ transform:translateX(18px); }
+  /* segmented control */
+  .poc-seg{ display:flex; background:var(--surface-2); border-radius:12px; padding:3px; gap:2px; }
+  .poc-seg button{ flex:1; border:none; background:none; font-family:inherit; font-size:13.5px; font-weight:700;
+    color:var(--text-2); padding:8px 0; border-radius:9px; cursor:pointer; }
+  .poc-seg button.on{ background:var(--surface); color:var(--text); box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  /* input field */
+  .poc-field{ display:block; margin-bottom:14px; }
+  .poc-field label{ display:block; font-size:12.5px; font-weight:700; color:var(--text-2); margin-bottom:7px; }
+  .poc-field .box{ width:100%; height:48px; border:1px solid var(--line-2); border-radius:12px; background:var(--surface);
+    display:flex; align-items:center; padding:0 14px; font-size:15px; color:var(--text); gap:10px; }
+  .poc-field .box.ph{ color:var(--text-3); }
+  /* progress bar */
+  .poc-bar{ height:8px; border-radius:999px; background:var(--surface-3); overflow:hidden; }
+  .poc-bar > i{ display:block; height:100%; background:var(--accent); border-radius:999px; }
+  /* mini bar chart */
+  .poc-chart{ display:flex; align-items:flex-end; gap:6px; height:88px; }
+  .poc-chart > i{ flex:1; background:var(--accent-weak); border-radius:6px 6px 3px 3px; }
+  .poc-chart > i.on{ background:var(--accent); }
+  /* section header with action */
+  .poc-sechead{ display:flex; align-items:baseline; justify-content:space-between; margin:24px 0 12px; }
+  .poc-sechead h3{ font-size:17px; font-weight:800; letter-spacing:-.01em; margin:0; }
+  .poc-sechead a{ font-size:13px; font-weight:700; color:var(--accent); cursor:pointer; }
+  /* callout / banner */
+  .poc-note{ display:flex; gap:12px; align-items:flex-start; background:var(--accent-weak); border-radius:14px; padding:14px; }
+  .poc-note .ic{ color:var(--accent); flex:0 0 auto; } .poc-note .tx{ font-size:13.5px; color:var(--text); line-height:1.5; }
+  /* tab badge */
+  .poc-tab{ position:relative; }
+  .poc-tab .badge{ position:absolute; top:0; right:calc(50% - 22px); min-width:16px; height:16px; padding:0 4px;
+    border-radius:999px; background:var(--danger); color:#fff; font-size:10px; font-weight:800; display:grid; place-items:center; }
 </style>
 
 <div class="poc-stage">
