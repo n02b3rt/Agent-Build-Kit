@@ -58,6 +58,13 @@ add a set counter to the workout screen
 swap the data for a women's gym profile
 ```
 
+**What `poc` gives you:**
+- **Two device shells** — a polished iPhone frame for mobile, and a side-by-side desktop + phone view for web so responsive behaviour is visible at a glance.
+- **A widget library** baked into the shells — KPI tiles, avatars, chips, toggles, segmented controls, inputs, progress bars, mini charts, tables — so screens are *assembled*, not hand-rolled.
+- **Clean SVG line-icons** (never emoji) and **research-backed proportions** (8pt spacing grid, 44px touch targets, a type scale) applied by default.
+- **A stable link** that grows as you add features one at a time — built for demoing live to a client.
+- **A hard anti-"AI-slop" rule set**, so mocks look designed, not generated.
+
 ### `kickstart` — new project
 
 ```
@@ -65,6 +72,20 @@ swap the data for a women's gym profile
 ```
 
 The skill initializes the repository, establishes the commit convention, and creates a `CLAUDE.md` with an architecture map plus a `docs/` directory. From that point on, every session and every new feature follows the same rules — including a fixed **repository language**, so the codebase never turns into a Polish/English mix regardless of the language you chat in.
+
+## Example
+
+A live `poc` session, start to finish — one stable link the whole time:
+
+| You type | What happens |
+|----------|--------------|
+| `/poc live: mobile app for a barber shop` | An empty, polished iPhone shell is published; you get a stable link in one line. |
+| `add a screen with today's available slots` | A "Slots" screen (list + SVG icons) is added; the link is unchanged. |
+| `make each slot open a booking detail with a back button` | A detail screen + working back-navigation are wired in. |
+| `add a profile tab with visit stats and a chart` | A Profile screen using KPI tiles, an avatar and a mini chart is added. |
+| `switch the accent to a fintech navy` | The whole mock recolours from a single token. |
+
+Nothing is written to a repository — a PoC is a throwaway artifact meant to validate an idea, not to ship.
 
 ## Design principles
 
@@ -76,8 +97,8 @@ The skill initializes the repository, establishes the commit convention, and cre
 
 ```
 skills/
-├── poc/         SKILL.md · assets/ (mobile shell) · references/ (mock-canvas, design-styles, domains)
-└── kickstart/   SKILL.md · assets/ (CLAUDE.md, settings, and docs templates)
+├── poc/         SKILL.md · assets/ (mobile + web shells) · references/ (mock-canvas, design-styles, design-fundamentals, domains)
+└── kickstart/   SKILL.md · assets/ (CLAUDE.md, AI_NOTES, settings, and docs templates)
 ```
 
 ## Updating
